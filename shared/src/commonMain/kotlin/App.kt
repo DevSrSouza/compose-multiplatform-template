@@ -1,23 +1,25 @@
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import cafe.adriel.voyager.navigator.Navigator
 
 @Composable
 internal fun App() {
     MaterialTheme {
-        var text by remember { mutableStateOf("Hello, World!") }
-
-        Button(onClick = {
-            text = "Hello, ${getPlatformName()}"
-        }) {
-            Text(text)
-        }
+        SampleApplication()
     }
 }
+
+@Composable
+internal fun SampleApplication() {
+    Navigator(
+        screen = BasicNavigationScreen(index = 0),
+        onBackPressed = { currentScreen ->
+            println("Navigator: Pop screen #${(currentScreen as BasicNavigationScreen).index}")
+            true
+        }
+    )
+}
+
 
 expect fun getPlatformName(): String
